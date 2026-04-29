@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Generador Profesional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(-45deg, #0b1120, #1e293b, #0d9488, #0b1120); background-size: 400% 400%; animation: gradientMove 10s ease infinite; }
+        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .app-card { width: 100%; max-width: 440px; background: white; border-radius: 2.5rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; }
+        #login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 2rem; }
+        #main-content { display: none; width: 100%; }
+        .input-monto::-webkit-inner-spin-button { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="app-card">
+        <div id="login-screen" class="space-y-6 py-12">
+            <div class="text-center">
+                <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tighter">Acceso de Agente</h2>
+                <p class="text-xs text-slate-400 font-bold uppercase">Introduce tus credenciales</p>
+            </div>
+            <div class="w-full space-y-4 px-8">
+                <input type="text" id="user" placeholder="Usuario" class="w-full border-b-2 py-3 px-4 outline-none font-bold text-center text-slate-700 uppercase">
+                <input type="password" id="pass" placeholder="Contraseña" class="w-full border-b-2 py-3 px-4 outline-none font-bold text-center text-slate-700">
+                <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-black transition-all">Ingresar</button>
+            </div>
+            <p id="error-msg" class="text-red-500 text-[10px] font-black uppercase hidden text-center">Credenciales Incorrectas</p>
+        </div>
+
+        <div id="main-content">
+            <div id="header-bg" class="bg-[#14b8a6] pt-10 pb-4 text-center transition-colors duration-500">
+                <div class="w-20 h-20 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/20">
+                    <img id="img-previa" src="" class="w-full h-full object-cover">
+                </div>
+                <div class="px-8 mb-4">
+                    <select id="prod" onchange="updateUI()" class="w-full border-none rounded-xl px-4 py-2 font-bold text-center outline-none bg-white">
+                        <option value="prestamos|#a3e635|#65a30d|https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/cb/a8/7a/cba87ab7-2fe9-aad7-e49f-a367d6c410b4/AppIcon-1x_U007ephone-0-1-0-85-220-0.jpeg/1200x630wa.png">Préstamos</option>
+                        <option value="dinero|#1e40af|#1d4ed8|https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/31/78/92/317892a1-467e-c2c7-b7c5-be2a58b7d358/AppIcon-1x_U007ephone-0-1-0-85-220-0.png/400x400ia-75.webp">Préstamos de Dinero</option>
+                        <option value="nu|#820ad1|#581c87|https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Nubank_logo_2021.svg/1200px-Nubank_logo_2021.svg.png">Préstamos NU</option>
+                        <option value="talacred|#06b6d4|#0891b2|https://play-lh.googleusercontent.com/DK9nyWUY6ZkHNh3TNSqbr8LTzxSGLJZZq-3QunZ-qkKIl3vYd8Ie8XGYQNrABCZ_T7Y=w480-h960-rw">Tala Crédito</option>
+                        <option value="tilt|#3b82f6|#1d4ed8|https://play-lh.googleusercontent.com/GALkEmiM5acYbAGJVkkma1Ij5rDW6CWhSKeGFLcXddAtK3uXmgCPxvfAnVxe325A2_b80xRieYiGjktUw5ajww=w480-h960-rw">Tilt</option>
+                        <option value="dida|#0057ff|#003eb3|https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/e2/14/27/e21427df-1404-f93c-c8b9-230ef12d4870/Placeholder.mill/400x400bb-75.webp">DidaPréstamos</option>
+                        <option value="rapidos|#10b981|#059669|https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7f/68/39/7f683903-e675-6fbc-56fa-64d6fb206e2d/AppIcon-1x_U007ephone-0-1-0-85-220-0.jpeg/400x400ia-75.webp">Préstamos rápidos</option>
+                        <option value="worldmox|#1e293b|#0f172a|https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOQ9FrkHlgWkaMJt_Za2IN0R5Z0UamJ_VQKg&s">Worldmoxpro cash</option>
+                        <option value="movil|#22c55e|#16a34a|https://play-lh.googleusercontent.com/OhU802wo_ffOcR5f6MAvz5ebNFvXOLDiC2p_b7kGS7_XBwFz3HI9jtNn6C8fBiQrzjUx">Movil Cash</option>
+                        <option value="cashcredit|#f59e0b|#d97706|https://play-lh.googleusercontent.com/kw_CZs5smCFpyFtI9pWkKhY1eRfX6E15tdTEU_KpxTaUYzUtRFx9b8eOJYpn-Ze4BQ=w480-h960-rw">Cash Credit</option>
+                        <option value="stori|#7c3aed|#6d28d9|https://play-lh.googleusercontent.com/oXTAgpljdbV5LuAOt1NP9_JafUZe9BNl7pwQ01ndl4blYL4N4IQh4-n456P5l_hc1A=s96-rw">Stori Crédito</option>
+                        <option value="facil|#0ea5e9|#0369a1|https://play-lh.googleusercontent.com/4cDOjhOrs563pTALZF8fikxthh5xznVnrFXReAOmWoNkfI0jncuig3l5hzOiNABAaw=w480-h960-rw">Fácil Préstamo</option>
+                        <option value="tala|#fb923c|#ea580c|https://play-lh.googleusercontent.com/DK9nyWUY6ZkHNh3TNSqbr8LTzxSGLJZZq-3QunZ-qkKIl3vYd8Ie8XGYQNrABCZ_T7Y=w480-h960-rw">Tala Préstamos</option>
+                    </select>
+                </div>
+                <div id="monto-bg" class="bg-[#65a30d] mx-6 p-6 rounded-[1.5rem] text-left text-white transition-colors duration-500">
+                    <span class="text-[10px] font-bold opacity-70 uppercase">Monto de Pago</span>
+                    <div class="flex items-center text-4xl font-black">
+                        <span>$</span>
+                        <input type="number" id="monto" value="0.00" step="0.01" class="input-monto bg-transparent border-none outline-none w-full text-white ml-1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-4 text-sm font-bold text-slate-800">
+                <div class="flex justify-between border-b pb-2"><span class="text-gray-400 uppercase text-[10px]">Importe</span><span id="l-monto">$0.00</span></div>
+                
+                <div class="flex justify-between border-b pb-2">
+                    <span class="text-gray-400 uppercase text-[10px]">Fecha Vencimiento</span>
+                    <input type="date" id="fecha" onchange="calcDias()" class="outline-none text-right font-bold bg-white">
+                </div>
+                <div class="flex justify-between border-b pb-2">
+                    <span class="text-gray-400 uppercase text-[10px]">Días Vencimiento</span>
+                    <span id="l-dias" class="font-black text-lg">0</span>
+                </div>
+
+                <div class="bg-gray-50 rounded-[2rem] p-6 text-center space-y-3 border border-gray-100">
+                    <span class="text-[10px] text-gray-400 uppercase">Método de Pago</span>
+                    <select id="metodo" onchange="updateClabe()" class="w-full border rounded-xl p-2 text-center outline-none bg-white font-black text-xs">
+                        <option value="BBVA">BBVA</option>
+                        <option value="STP">STP</option>
+                        <option value="BANREGIO">BANREGIO</option>
+                        <option value="SANTANDER">SANTANDER</option>
+                    </select>
+                    <span class="text-[10px] text-gray-400 uppercase">Liga de Pago</span>
+                    <div id="display-clabe" class="w-full border rounded-xl p-2 text-center text-blue-600 bg-white font-black text-sm">012010015142187595</div>
+                </div>
+
+                <div class="space-y-2">
+                    <input type="text" id="nom" placeholder="Nombre del cliente" class="w-full border-b py-2 text-center outline-none uppercase font-bold">
+                    <input type="tel" id="tel" placeholder="Número del cliente (10 dígitos)" class="w-full border-b py-2 text-center outline-none font-bold">
+                </div>
+
+                <button onclick="generar()" id="btn" class="w-full bg-[#65a30d] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs">GENERAR ORDEN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const u = document.getElementById('user').value.toLowerCase();
+            const p = document.getElementById('pass').value;
+            if(u === "admin" && p === "12345678990") {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                updateUI();
+            } else { document.getElementById('error-msg').classList.remove('hidden'); }
+        }
+
+        function updateUI() {
+            const val = document.getElementById('prod').value.split('|');
+            document.getElementById('header-bg').style.backgroundColor = val[1];
+            document.getElementById('monto-bg').style.backgroundColor = val[2];
+            document.getElementById('btn').style.backgroundColor = val[2];
+            document.getElementById('img-previa').src = val[3];
+        }
+
+        function updateClabe() {
+            const banco = document.getElementById('metodo').value;
+            const display = document.getElementById('display-clabe');
+            if(banco === "BBVA") {
+                display.innerText = "012010015142187595";
+            } else if(banco === "STP") {
+                display.innerText = "646193405604451002";
+            } else if(banco === "BANREGIO") {
+                display.innerText = "058010000154094386";
+            } else if(banco === "SANTANDER") {
+                display.innerText = "014010140365616758";
+            }
+        }
+
+        document.getElementById('fecha').valueAsDate = new Date();
+        document.getElementById('monto').addEventListener('input', (e) => { 
+            document.getElementById('l-monto').innerText = '$' + (e.target.value || "0.00"); 
+        });
+
+        function calcDias() {
+            const f = new Date(document.getElementById('fecha').value);
+            const hoy = new Date();
+            hoy.setHours(0,0,0,0); f.setHours(0,0,0,0);
+            const diffTime = hoy - f;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const el = document.getElementById('l-dias');
+            if (diffDays > 0) { el.innerText = diffDays; el.style.color = "#ef4444"; } 
+            else { el.innerText = "0"; el.style.color = "#1e293b"; }
+        }
+
+        function generar() {
+            const sel = document.getElementById('prod');
+            const data = sel.value.split('|');
+            const p = new URLSearchParams({
+                m: document.getElementById('monto').value,
+                n: document.getElementById('nom').value || "Cliente",
+                t: document.getElementById('tel').value || "0000000000",
+                v: data[0],
+                b: document.getElementById('metodo').value,
+                c: document.getElementById('display-clabe').innerText,
+                f: document.getElementById('fecha').value,
+                s: Date.now()
+            });
+            window.location.href = `detalle.html?${p.toString()}`;
+        }
+    </script>
+</body>
+</html>
