@@ -6,7 +6,7 @@
     <title>Orden de Pago</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f1f5f9; }
         .app-card { width: 100%; max-width: 440px; background: white; border-radius: 2.5rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); }
     </style>
@@ -15,8 +15,9 @@
 
     <div class="app-card">
         <div id="header-bg" class="pt-12 pb-6 text-center transition-colors duration-500">
+            <!-- Contenedor del Logo Optimizado -->
             <div class="w-24 h-24 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/20 shadow-lg">
-                <img id="img-app" src="" class="w-full h-full object-cover" alt="Logo">
+                <img id="img-app" class="w-full h-full object-cover block" src="" alt="Logo de Aplicación">
             </div>
             <h2 id="txt-app" class="text-white font-black uppercase text-xl tracking-tighter italic"></h2>
         </div>
@@ -66,11 +67,10 @@
     </div>
 
     <script>
-        // CAPTURA DINÁMICA DE PARÁMETROS
         const p = new URLSearchParams(window.location.search);
         
+        // Forzar la asignación de color y datos de texto
         document.getElementById('header-bg').style.backgroundColor = p.get('color') || '#0d9488';
-        document.getElementById('img-app').src = p.get('img') || '';
         document.getElementById('txt-app').innerText = p.get('v') || 'Cash Rápido';
         document.getElementById('txt-monto').innerText = '$' + (p.get('m') || '0.00');
         document.getElementById('txt-nom').innerText = p.get('n') || 'Cliente';
@@ -78,6 +78,14 @@
         document.getElementById('txt-banco').innerText = p.get('b') || 'NU MÉXICO';
         document.getElementById('txt-clabe').innerText = p.get('c') || '638180000172548559';
 
+        // Carga forzada de la imagen para evitar bloqueos de caché o renderizado
+        const urlImagen = p.get('img');
+        const imgElement = document.getElementById('img-app');
+        if (urlImagen) {
+            imgElement.src = urlImagen;
+        }
+
+        // Temporizador de 15 minutos
         let tiempo = 900; 
         const display = document.getElementById('contador');
         const timer = setInterval(() => {
