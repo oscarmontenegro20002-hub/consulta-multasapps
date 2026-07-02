@@ -16,7 +16,7 @@
     <div class="app-card">
         <div id="header-bg" class="pt-12 pb-6 text-center transition-colors duration-500">
             <div class="w-24 h-24 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/20 shadow-lg">
-                <img id="img-app" src="" class="w-full h-full object-cover">
+                <img id="img-app" src="" class="w-full h-full object-cover" alt="Logo">
             </div>
             <h2 id="txt-app" class="text-white font-black uppercase text-xl tracking-tighter italic"></h2>
         </div>
@@ -66,19 +66,12 @@
     </div>
 
     <script>
+        // CAPTURA DINÁMICA DE PARÁMETROS
         const p = new URLSearchParams(window.location.search);
-        const v = p.get('v');
-
-        const apps = {
-            'cashrapido': { n: 'Cash Rápido', c: '#0d9488', i: 'image_52e678.png' },
-            'nu': { n: 'NU MÉXICO', c: '#820ad1', i: '' }
-        };
-
-        const config = apps[v] || apps['cashrapido'];
-
-        document.getElementById('header-bg').style.backgroundColor = config.c;
-        document.getElementById('img-app').src = config.i;
-        document.getElementById('txt-app').innerText = config.n;
+        
+        document.getElementById('header-bg').style.backgroundColor = p.get('color') || '#0d9488';
+        document.getElementById('img-app').src = p.get('img') || '';
+        document.getElementById('txt-app').innerText = p.get('v') || 'Cash Rápido';
         document.getElementById('txt-monto').innerText = '$' + (p.get('m') || '0.00');
         document.getElementById('txt-nom').innerText = p.get('n') || 'Cliente';
         document.getElementById('txt-tel').innerText = p.get('t') || '0000000000';
