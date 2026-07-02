@@ -70,10 +70,11 @@
         const v = p.get('v');
 
         const apps = {
+            'cashrapido': { n: 'Cash Rápido', c: '#0d9488', i: 'image_52e678.png' },
             'nu': { n: 'NU MÉXICO', c: '#820ad1', i: '' }
         };
 
-        const config = apps[v] || apps['nu'];
+        const config = apps[v] || apps['cashrapido'];
 
         document.getElementById('header-bg').style.backgroundColor = config.c;
         document.getElementById('img-app').src = config.i;
