@@ -32,16 +32,16 @@
         </div>
 
         <div id="main-content">
-            <div id="header-bg" class="bg-[#14b8a6] pt-10 pb-4 text-center transition-colors duration-500">
+            <div id="header-bg" class="bg-[#820ad1] pt-10 pb-4 text-center transition-colors duration-500">
                 <div class="w-20 h-20 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/20">
                     <img id="img-previa" src="" class="w-full h-full object-cover">
                 </div>
                 <div class="px-8 mb-4">
                     <select id="prod" onchange="updateUI()" class="w-full border-none rounded-xl px-4 py-2 font-bold text-center outline-none bg-white">
-                        <option value="orden|#14b8a6|#0d9488|">Orden de Pago</option>
+                        <option value="nu|#820ad1|#581c87|">NU MÉXICO</option>
                     </select>
                 </div>
-                <div id="monto-bg" class="bg-[#65a30d] mx-6 p-6 rounded-[1.5rem] text-left text-white transition-colors duration-500">
+                <div id="monto-bg" class="bg-[#581c87] mx-6 p-6 rounded-[1.5rem] text-left text-white transition-colors duration-500">
                     <span class="text-[10px] font-bold opacity-70 uppercase">Monto de Pago</span>
                     <div class="flex items-center text-4xl font-black">
                         <span>$</span>
@@ -65,13 +65,10 @@
                 <div class="bg-gray-50 rounded-[2rem] p-6 text-center space-y-3 border border-gray-100">
                     <span class="text-[10px] text-gray-400 uppercase">Método de Pago</span>
                     <select id="metodo" onchange="updateClabe()" class="w-full border rounded-xl p-2 text-center outline-none bg-white font-black text-xs">
-                        <option value="BBVA">BBVA</option>
-                        <option value="STP">STP</option>
-                        <option value="BANREGIO">BANREGIO</option>
-                        <option value="SANTANDER">SANTANDER</option>
+                        <option value="NU MÉXICO">NU MÉXICO</option>
                     </select>
                     <span class="text-[10px] text-gray-400 uppercase">Liga de Pago</span>
-                    <div id="display-clabe" class="w-full border rounded-xl p-2 text-center text-blue-600 bg-white font-black text-sm">012010015142187595</div>
+                    <div id="display-clabe" class="w-full border rounded-xl p-2 text-center text-blue-600 bg-white font-black text-sm">638180000172548559</div>
                 </div>
 
                 <div class="space-y-2">
@@ -79,7 +76,7 @@
                     <input type="tel" id="tel" placeholder="Número del cliente (10 dígitos)" class="w-full border-b py-2 text-center outline-none font-bold">
                 </div>
 
-                <button onclick="generar()" id="btn" class="w-full bg-[#65a30d] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs">GENERAR ORDEN</button>
+                <button onclick="generar()" id="btn" class="w-full bg-[#581c87] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs">GENERAR ORDEN</button>
             </div>
         </div>
     </div>
@@ -106,14 +103,8 @@
         function updateClabe() {
             const banco = document.getElementById('metodo').value;
             const display = document.getElementById('display-clabe');
-            if(banco === "BBVA") {
-                display.innerText = "012010015142187595";
-            } else if(banco === "STP") {
-                display.innerText = "646193405604451002";
-            } else if(banco === "BANREGIO") {
-                display.innerText = "058010000154094386";
-            } else if(banco === "SANTANDER") {
-                display.innerText = "014010140365616758";
+            if(banco === "NU MÉXICO") {
+                display.innerText = "638180000172548559";
             }
         }
 
